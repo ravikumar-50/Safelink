@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { 
@@ -22,7 +22,7 @@ import { Input } from "@/components/ui/Input";
 import { CyberCard } from "@/components/ui/CyberCard";
 import { toast } from "react-hot-toast";
 
-export default function Analyzer() {
+function AnalyzerContent() {
   const searchParams = useSearchParams();
   const query = searchParams.get("query") || "";
   
@@ -232,5 +232,17 @@ export default function Analyzer() {
         )}
       </AnimatePresence>
     </div>
+  );
+}
+
+export default function Analyzer() {
+  return (
+    <Suspense fallback={
+      <div className="flex items-center justify-center min-h-screen">
+        <RefreshCw className="w-8 h-8 animate-spin text-cyber-green" />
+      </div>
+    }>
+      <AnalyzerContent />
+    </Suspense>
   );
 }
