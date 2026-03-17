@@ -1,18 +1,24 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { motion } from "framer-motion";
-import { Shield, History, ExternalLink, Calendar, AlertTriangle } from "lucide-react";
+import { Shield } from "lucide-react";
 import { CyberCard } from "@/components/ui/CyberCard";
-import { Button } from "@/components/ui/Button";
+
+interface Scan {
+  _id: string;
+  inputText: string;
+  riskLevel: "SAFE" | "SUSPICIOUS" | "DANGEROUS";
+  riskScore: number;
+  scanDate: string;
+}
 
 export default function Dashboard() {
-  const [scans, setScans] = useState<any[]>([]);
+  const [scans, setScans] = useState<Scan[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     // Mock scans for demonstration
-    const mockScans = [
+    const mockScans: Scan[] = [
       {
         _id: "1",
         inputText: "https://secure-login-bank.xyz",

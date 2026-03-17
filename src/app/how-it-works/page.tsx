@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Cpu, Globe, Database, ShieldCheck, Search, Zap } from "lucide-react";
+import { Cpu, Globe, Database, ShieldCheck } from "lucide-react";
 import { CyberCard } from "@/components/ui/CyberCard";
 
 const STEPS = [

@@ -12,7 +12,7 @@ export const CyberCard = ({ children, className, variant = "green", title }: Cyb
   const borderColors = {
     green: "glow-border-green",
     blue: "glow-border-blue",
-    red: "border-cyber-red shadow-neon-red",
+    red: "glow-border-red",
   };
 
   const textColors = {

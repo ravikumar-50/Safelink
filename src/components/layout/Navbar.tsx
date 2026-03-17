@@ -4,7 +4,6 @@ import Link from "next/link";
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { Shield, Menu, X } from "lucide-react";
-import { Button } from "@/components/ui/Button";
 
 const NAV_LINKS = [
   { name: "Home", href: "/" },

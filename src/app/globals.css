@@ -67,7 +67,24 @@ body {
   box-shadow: 0 0 10px rgba(0, 255, 159, 0.2);
 }
 
+.glow-border-red {
+  border: 1px solid var(--cyber-red);
+  box-shadow: 0 0 10px rgba(255, 77, 77, 0.2);
+}
+
 .glow-border-blue {
   border: 1px solid var(--cyber-blue);
   box-shadow: 0 0 10px rgba(0, 217, 255, 0.2);
 }
+
+/* Mobile Optimizations */
+@media (max-width: 768px) {
+  .cyber-grid {
+    background-size: 30px 30px;
+  }
+  
+  .glow-text-green, .glow-text-blue {
+    text-shadow: 0 0 5px rgba(0, 255, 159, 0.3);
+  }
+}
+

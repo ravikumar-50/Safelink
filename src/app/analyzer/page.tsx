@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, Suspense } from "react";
+import { useState, useEffect, Suspense, useCallback } from "react";
 import { useSearchParams } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { 
@@ -22,21 +22,33 @@ import { Input } from "@/components/ui/Input";
 import { CyberCard } from "@/components/ui/CyberCard";
 import { toast } from "react-hot-toast";
 
+interface AnalysisResult {
+  riskScore: number;
+  riskLevel: "SAFE" | "SUSPICIOUS" | "DANGEROUS";
+  explanation: string;
+  reasons: string[];
+  _id?: string;
+  domainInfo?: {
+    registrar: string;
+    age: string;
+    creationDate: string;
+  };
+  serverInfo?: {
+    ip: string;
+    isp: string;
+    country: string;
+  };
+}
+
 function AnalyzerContent() {
   const searchParams = useSearchParams();
   const query = searchParams.get("query") || "";
   
   const [inputText, setInputText] = useState(query);
   const [isScanning, setIsScanning] = useState(false);
-  const [result, setResult] = useState<any>(null);
+  const [result, setResult] = useState<AnalysisResult | null>(null);
 
-  useEffect(() => {
-    if (query) {
-      handleAnalyze(query);
-    }
-  }, [query]);
-
-  const handleAnalyze = async (text: string = inputText) => {
+  const handleAnalyze = useCallback(async (text: string = inputText) => {
     if (!text) return;
     setIsScanning(true);
     setResult(null);
@@ -49,16 +61,27 @@ function AnalyzerContent() {
       });
 
       const data = await response.json();
+      // Normalize riskLevel to uppercase
+      if (data.riskLevel) {
+        data.riskLevel = data.riskLevel.toUpperCase();
+      }
       setResult(data);
-    } catch (error) {
+    } catch {
       toast.error("Analysis failed. Please try again.");
     } finally {
       setIsScanning(false);
     }
-  };
+  }, [inputText]);
+
+  useEffect(() => {
+    if (query) {
+      handleAnalyze(query);
+    }
+  }, [query, handleAnalyze]);
 
   const getRiskColor = (level: string) => {
-    switch (level) {
+    const normalizedLevel = level?.toUpperCase();
+    switch (normalizedLevel) {
       case "SAFE": return "green";
       case "SUSPICIOUS": return "blue";
       case "DANGEROUS": return "red";
@@ -88,7 +111,7 @@ function AnalyzerContent() {
             onKeyDown={(e) => e.key === "Enter" && handleAnalyze()}
           />
           <Button 
-            className="absolute right-2 top-2"
+            className="absolute right-2 top-2 h-[calc(100%-1rem)] px-4"
             size="sm"
             onClick={() => handleAnalyze()}
             disabled={isScanning || !inputText}
@@ -140,7 +163,7 @@ function AnalyzerContent() {
                 <div className="flex items-center space-x-6">
                   {getRiskIcon(result.riskLevel)}
                   <div className="space-y-1">
-                    <h2 className="text-3xl font-black uppercase italic tracking-tighter">
+                    <h2 className="text-2xl md:text-3xl font-black uppercase italic tracking-tighter">
                       Risk Level: <span className={result.riskLevel === 'DANGEROUS' ? 'text-cyber-red' : result.riskLevel === 'SUSPICIOUS' ? 'text-cyber-blue' : 'text-cyber-green'}>
                         {result.riskLevel}
                       </span>

@@ -50,7 +50,7 @@ export default function Home() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.2 }}
-            className="text-lg md:text-2xl text-cyber-blue font-bold tracking-widest uppercase italic"
+            className="text-lg md:text-2xl text-cyber-blue font-bold tracking-widest uppercase italic bg-black/40 inline-block px-2 py-1 rounded"
           >
             AI-powered protection against phishing links and scam messages.
           </motion.p>
@@ -58,7 +58,7 @@ export default function Home() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.3 }}
-            className="max-w-2xl mx-auto text-white/40 text-sm md:text-base tracking-wide"
+            className="max-w-2xl mx-auto text-white/60 text-sm md:text-base tracking-wide"
           >
             Paste any suspicious URL or message and let SafeLink AI instantly analyze its risk using 
             advanced artificial intelligence and real-time cybersecurity intelligence.
